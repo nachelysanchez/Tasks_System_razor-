@@ -1,0 +1,64 @@
+@page "/cTareas"
+@using Entidades
+
+<EditForm Model="tarea" OnValidSubmit ="Buscar">
+    <DataAnnotationsValidator />
+    <div class="card">
+        <div class="card-header">
+            <h3>Consulta de Tareas</h3>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="input-group d-flex align-items-end">
+                    <select class="form-control col-2" @bind="Filtro">
+                        <option value="0">Filtro</option>
+                        <option value="1">Nombre</option>
+                        <option value="2">Descripción</option>
+                    </select>
+
+                    <div class="flex-fill mx-2">
+                        <label>Criterio</label>
+                        <input type="text" class="form-control" @bind="Criterio"/>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning" @onclick="Buscar">
+                        <i class="oi oi-magnifying-glass mr-2"/> Buscar
+                    </button>
+                </div>
+                
+            </form>
+        </div>
+        <table class="table table-secondary">
+            <thead class="thead-dark">
+                <tr class="table-info">
+                    <th>Id</th>
+                    <th>Nombre de la Tarea</th>
+                    <th>Descripción de la tarea</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Tareas)
+                {
+                    
+                }
+            </tbody>
+        </table>
+    </div>
+</EditForm>
+
+
+
+@code{
+    public string Filtro { get; set; }
+    public string Criterio { get; set; }
+    public List<Tareas> Tareas { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Tareas = new List<Tareas>();
+    }
+    
+    private void Buscar(){
+
+    }
+}
