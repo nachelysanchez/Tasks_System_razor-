@@ -1,7 +1,8 @@
 @page "/cTareas"
 @using Entidades
+@using BLL
 
-<EditForm Model="tarea" OnValidSubmit ="Buscar">
+<EditForm Model="lista">
     <DataAnnotationsValidator />
     <div class="card">
         <div class="card-header">
@@ -11,9 +12,10 @@
             <form>
                 <div class="input-group d-flex align-items-end">
                     <select class="form-control col-2" @bind="Filtro">
-                        <option value="0">Filtro</option>
-                        <option value="1">Nombre</option>
-                        <option value="2">Descripción</option>
+                        <option value="0">Todos</option>
+                        <option value="1">Id</option>
+                        <option value="2">Nombre</option>
+                        <option value="3">Descripción</option>
                     </select>
 
                     <div class="flex-fill mx-2">
@@ -21,7 +23,7 @@
                         <input type="text" class="form-control" @bind="Criterio"/>
                     </div>
 
-                    <button type="submit" class="btn btn-warning" @onclick="Buscar">
+                    <button type="button" class="btn btn-warning" @onclick="Buscar">
                         <i class="oi oi-magnifying-glass mr-2"/> Buscar
                     </button>
                 </div>
@@ -37,9 +39,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Tareas)
+                @foreach (var item in lista)
                 {
-                    
+                    <tr>
+                        <td>@item.TareaId</td>
+                        <td>@item.Nombre</td>
+                        <td>@item.Descripcion</td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -51,14 +57,35 @@
 @code{
     public string Filtro { get; set; }
     public string Criterio { get; set; }
-    public List<Tareas> Tareas { get; set; }
+    public List<Tareas> lista { get; set; } = new List<Tareas>();
 
-    protected override void OnInitialized()
-    {
-        Tareas = new List<Tareas>();
-    }
-    
+        
     private void Buscar(){
+        lista = new List<Tareas>();
 
+        if (Criterio.Length > 0)
+        {
+            switch(Filtro)
+            {
+                case "0":
+                    lista = TareasBLL.GetTareas();
+                    break;
+                case "1":
+                    lista = TareasBLL.GetList(t => t.TareaId == int.Parse(Criterio));
+                    break;
+
+                case "2":
+                    lista = TareasBLL.GetList(t => t.Nombre.ToLower().Contains(Criterio.ToLower())); 
+                    break;
+
+                case "3":
+                    lista = TareasBLL.GetList(t => t.Descripcion.ToLower().Contains(Criterio.ToLower()));
+                    break;
+            }
+        }
+        else
+        {
+            lista = TareasBLL.GetList(t => true);
+        }
     }
 }
