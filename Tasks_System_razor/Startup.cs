@@ -30,6 +30,7 @@ namespace Tasks_System_razor
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddBlazoredToast();
             services.AddSingleton<WeatherForecastService>();
         }
 

@@ -1,6 +1,7 @@
 @page "/Tareas"
 @using BLL
 @using Entidades
+@inject IToastService toast
 
 
 <EditForm Model="tarea" OnValidSubmit="Guardar">
@@ -71,6 +72,9 @@
             Nuevo();
             if (encontrado != null)
                 this.tarea = encontrado;
+            else{
+                //toast.ShowWarning($"No se ha encontrado la tarea con el id {tarea.TareaId}");
+            }
 
         }
     } 
@@ -82,6 +86,10 @@
         if (guardado)
         {
             Nuevo();
+            //toast.ShowInfo("La tarea se guardo correctamente");
+        }
+        else{
+            //toast.ShowWarning("La tarea no se guardo");
         }
 
     }
@@ -95,6 +103,10 @@
         if (eliminado)
         {
             Nuevo();
+            //toast.ShowInfo("La tarea se elimino correctamente");
+        }
+        else{
+            //toast.ShowWarning("La tarea no se elimino");
         }
 
     }
