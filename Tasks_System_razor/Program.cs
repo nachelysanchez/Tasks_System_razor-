@@ -13,9 +13,7 @@ namespace Tasks_System_razor
     {
         public static void Main(string[] args)
         {
-            builder.Services.AddBlazoredToast();
             CreateHostBuilder(args).Build().Run();
-
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
